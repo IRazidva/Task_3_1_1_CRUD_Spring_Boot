@@ -6,10 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 import web.repo.UserRepository;
 import web.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
+//@Transactional
 public class UserServiceImpl implements UserService{
 
     @Autowired
@@ -18,7 +19,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User add() {
         User user = new User("Name","Lastname",100);
-        User savedUser = userRepository.saveAndFlush(user);
+        User savedUser = userRepository.save(user);
         return savedUser;
     }
 
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User edit(User user) {
-        return userRepository.saveAndFlush(user);
+        return userRepository.save(user);
     }
 
     @Override
@@ -45,7 +46,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<User> allUsers() {
-        return userRepository.findAll();
+        List<User> users = new ArrayList<>();
+        userRepository.findAll().forEach(user -> users.add(user));
+        return users;
     }
 
 }
